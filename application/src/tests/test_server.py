@@ -15,3 +15,13 @@ def test_server_run(flask_app):
 def test_server_env(env, expected):
     app = create_app(env)
     assert app.config['MESSAGE'] == expected
+
+@pytest.mark.parametrize('env, expected',
+        [('dev', 'Development'),
+        ('prod', 'Product'),
+        ('test', 'Testing')
+        ]
+)
+def test_server_db(env, expected):
+    app = create_app(env)
+    assert app is not None

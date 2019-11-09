@@ -5,18 +5,19 @@
 class Config(object):
     DEBUG = False
     TESTING = False
-    DATABASE_URI = 'sqlite://:memory:'
 
 class ProductionConfig(Config):
-    DATABASE_URI = 'mysql://user@localhost/foo'
+    DATABASE_URI = 'mysql://root@localhost/production'
     MESSAGE = 'Product'
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    DATABASE_URI = 'mysql://root@localhost/develop'
     MESSAGE = 'Development'
 
 class TestingConfig(Config):
     TESTING = True
+    DATABASE_URI = 'mysql://root@localhost/staging'
     MESSAGE = 'Testing'
 
 config_by_name = dict(
