@@ -1,12 +1,8 @@
 # application/create.py
 # 서버 객체를 생성, 환경 변수를 세팅 해준다.
 from flask import Flask
-import pymysql
-
-def connect_db(config):
-    conn = pymysql.connect(host=config['table'], 
-            user=config['id'], passwd=config['pass'], db=config['database'], charset='utf8')
-    return conn
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
 
 def create_app(mode='dev'):
     app = Flask(__name__)
@@ -16,13 +12,7 @@ def create_app(mode='dev'):
     
     from logger import file_logger
     app.logger.addHandler(file_logger('CRITICAL'))
-    config = {'database' : 'develop',
-            'table':'USERS_TB',
-            'id':'root',
-            'pass':'wkdgns15-09',
-            }
-    conn = connect_db(config)
-    import ipdb; ipdb.set_trace()
+    db.init_app(app)
 
     from src.views import api_user
     from src.views import api_error
