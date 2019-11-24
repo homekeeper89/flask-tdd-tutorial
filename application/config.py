@@ -5,23 +5,30 @@
 class Config(object):
     DEBUG = False
     TESTING = False
-
+    DB = {
+        'id':'myid',
+        'password':'super_secret',
+        'host':'localhost',
+    }
 class ProductionConfig(Config):
-    DATABASE_URI = 'mysql://root@localhost/production'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{id}:{password}@{host}/production'\
+            .format(id=Config.DB['id'], password=Config.DB['password'], host=Config.DB['host'])
     MESSAGE = 'Product'
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    DATABASE_URI = 'mysql://root@localhost/develop'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{id}:{password}@{host}/develop'\
+            .format(id=Config.DB['id'], password=Config.DB['password'], host=Config.DB['host'])
     MESSAGE = 'Development'
 
-class TestingConfig(Config):
+class StagingConfig(Config):
     TESTING = True
-    DATABASE_URI = 'mysql://root@localhost/staging'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{id}:{password}@{host}/staging'\
+            .format(id=Config.DB['id'], password=Config.DB['password'], host=Config.DB['host'])
     MESSAGE = 'Testing'
 
 config_by_name = dict(
     dev=DevelopmentConfig,
-    test=TestingConfig,
+    staging=StagingConfig,
     prod=ProductionConfig
 )
